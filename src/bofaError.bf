@@ -18,5 +18,6 @@ enum bofa_error_type
 	EndOfContent, //The content ends
 	UnexpectedSpace, //Administrative decision to disallow spaces for indenting
 	TooMuchIndentation,
-	UnexpectedTab
+	UnexpectedTab,
+	InvalidType //An invalid or unsupported type
 }

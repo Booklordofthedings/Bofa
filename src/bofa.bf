@@ -22,7 +22,7 @@ struct bofa
 		if(stored != null)
 			delete stored;
 
-		if(type == .multi_line)
+		if(type == .text)
 			delete value.multi_line;
 		else if(type == .array)
 			for(var e in value.array)
@@ -36,6 +36,7 @@ struct bofa
 struct bofa_value
 {
 	public float number;
+	public bool boolean;
 	public double big_number;
 	public int32 integer;
 	public int64 big_integer;
@@ -48,11 +49,12 @@ struct bofa_value
 enum bofa_type
 {
 	number,
+	boolean,
 	big_number,
 	integer,
 	big_integer,
+	line,
 	text,
-	multi_line,
 	custom,
 	array,
 	object
@@ -70,7 +72,7 @@ name a
 name c typename value
 
 name t
--> Part of the text entry
+	-> Part of the text entry
 name o
     name a
     - n value
