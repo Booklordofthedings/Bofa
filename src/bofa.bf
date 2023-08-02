@@ -5,6 +5,10 @@ using System.Collections;
 struct bofa
 {
 	private String stored = null; //Private stored value, only used if its the base parsed object
+	//In order to allow better inserting
+	private bofa_value* last_object = null;
+	private bofa_value* last_array = null;
+	private bofa_value* last_string = null;
 
 	public StringView name;
 	public bofa_type type;
