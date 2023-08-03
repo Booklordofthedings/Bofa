@@ -1,0 +1,5 @@
+namespace Bofa;
+
+class bofaParser
+{
+}

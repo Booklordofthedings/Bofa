@@ -6,9 +6,9 @@ struct bofa
 {
 	private String stored = null; //Private stored value, only used if its the base parsed object
 	//In order to allow better inserting
-	private bofa_value* last_object = null;
-	private bofa_value* last_array = null;
-	private bofa_value* last_string = null;
+	private bofa* last_object = null;
+	private bofa* last_array = null;
+	private bofa* last_string = null;
 
 	public StringView name;
 	public bofa_type type;
@@ -23,13 +23,16 @@ struct bofa
 			delete stored;
 
 		if(type == .text)
-			delete value.multi_line;
+			delete value.text;
 		else if(type == .array)
 			for(var e in value.array)
 				e.Cleanup();
 		else if(type == .object)
+		{
 			for(var e in value.object)
-				e.value.Cleanup();
+				e.Cleanup();
+			delete value.object;
+		}
 	}
 }
 [Union]
@@ -40,11 +43,11 @@ struct bofa_value
 	public double big_number;
 	public int32 integer;
 	public int64 big_integer;
-	public StringView text;
-	public String multi_line;
+	public StringView line;
+	public String text;
 	public StringView custom;
-	public bofa[] array;
-	public Dictionary<StringView, bofa*> object; //Pointer in order to protect us from data cycles
+	public List<bofa> array;
+	public List<bofa> object; //Pointer in order to protect us from data cycles
 }
 enum bofa_type
 {
