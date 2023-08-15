@@ -1,89 +1,20 @@
 namespace Bofa;
 using System;
-using System.Collections;
-//Books object format -> a
-struct bofa
+class Bofa
 {
-	private String stored = null; //Private stored value, only used if its the base parsed object
-	//In order to allow better inserting
-	private bofa* last_object = null;
-	private bofa* last_array = null;
-	private bofa* last_string = null;
+	public eBofaType Type;
+	public StringView TypeName;
+	public StringView Name;
+	public BofaValue Value;
 
-	public StringView name;
-	public bofa_type type;
-	public StringView type_name;
-	public bofa_value value;
+	private String Data = null;
+	private Bofa LastObject;
+	private Bofa LastText;
 
-
-	///Cleans up all allocated memory
-	public void Cleanup()
+	public ~this()
 	{
-		if(stored != null)
-			delete stored;
-
-		if(type == .text)
-			delete value.text;
-		else if(type == .array)
-			for(var e in value.array)
-				e.Cleanup();
-		else if(type == .object)
-		{
-			for(var e in value.object)
-				e.Cleanup();
-			delete value.object;
-		}
+		if(Data != null)
+			delete Data;
+		if(Type == .)
 	}
 }
-[Union]
-struct bofa_value
-{
-	public float number;
-	public bool boolean;
-	public double big_number;
-	public int32 integer;
-	public int64 big_integer;
-	public StringView line;
-	public String text;
-	public StringView custom;
-	public List<bofa> array;
-	public List<bofa> object; //Pointer in order to protect us from data cycles
-}
-enum bofa_type
-{
-	number,
-	boolean,
-	big_number,
-	integer,
-	big_integer,
-	line,
-	text,
-	custom,
-	array,
-	object
-}
-
-/*
-
-name c value
-
-name o
-    name n value //Object member
-name a
-- n value //Array member
-
-name c typename value
-
-name t
-	-> Part of the text entry
-name o
-    name a
-    - n value
-
-
-
-several different types
-custom types
-multi line types
-arrays 
-*/
