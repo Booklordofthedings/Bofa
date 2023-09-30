@@ -46,4 +46,33 @@ class Bofa
 		LastObject = toInsert;
 		return true;
 	}
+
+
+	//Finding specific entries easier
+	public Result<Bofa> this[StringView name]
+	{
+		public get {
+			if(Type != .Object)
+				return .Err;
+			if(!Value.Object.ContainsKey(name))
+				return .Err;
+			return .Ok(Value.Object[name]);
+		}
+	}
+
+	public Result<Bofa> this[uint32 number]
+	{
+		public get {
+			if(Type != .Array)
+				return .Err;
+			if(Value.Array.Count <= number)
+				return .Err;
+			return Value.Array[number];
+		}
+	}
+
+	public static mixin GetValueOrDefault<T>(Result<T> result, T dfault)
+	{
+		result case .Err ? dfault : result
+	}
 }

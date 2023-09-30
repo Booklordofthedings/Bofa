@@ -1,5 +1,6 @@
 namespace Bofa.Builder;
 using System;
+using System.Collections;
 typealias bb = BofaBuilder;
 class BofaBuilder
 {
@@ -86,6 +87,7 @@ class BofaBuilder
 	}
 
 	private Span<b> values;
+	private List<b> valueList = new .();
 	public this(params Span<b> input)
 	{
 		values = input;
@@ -96,6 +98,10 @@ class BofaBuilder
 	{
 		for(var a in values)
 			a.Cleanup();
+
+		for(var a in valueList)
+			a.Cleanup();
+		delete valueList;
 	}
 
 	public override void ToString(String strBuffer)
@@ -104,8 +110,18 @@ class BofaBuilder
 		{
 			a.ToString(strBuffer, 0);
 		}
+		for(var a in valueList)
+		{
+			a.ToString(strBuffer, 0);
+		}
 		if(strBuffer[strBuffer.Length-1] == '\n')
 			strBuffer.RemoveFromEnd(1); //There are probably better ways to do this but I dont care
+	}
+
+	///Adds a single entry after the creation
+	public void Add(b pToAdd)
+	{
+		valueList.Add(pToAdd);
 	}
 
 	public static b Num(StringView name, float number)

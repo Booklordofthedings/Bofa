@@ -26,7 +26,7 @@ class BofaResult
 	{ 
 
 		if(_result != null)
-			DeleteContainerAndItems!(_result);
+			delete _result;
 
 		if(_data != null)
 		{
@@ -71,12 +71,18 @@ class BofaResult
 	}
 
 	///Interface functions go here
-	public BofaResult this[String pValue]
+	public Result<Bofa> this[StringView pValue]
 	{
 		public get {
-			BofaResult toReturn = new .();
-			return toReturn;
+			if(!_contents.ContainsKey(pValue))
+			 return .Err;
+			return _contents[pValue];
 		}
+	}
+
+	public Result<Bofa> GetByName(StringView pValue)
+	{
+		return this[pValue];
 	}
 
 }
